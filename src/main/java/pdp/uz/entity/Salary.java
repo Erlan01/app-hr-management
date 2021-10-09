@@ -21,6 +21,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Salary {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
