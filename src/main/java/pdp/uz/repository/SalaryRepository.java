@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface SalaryRepository extends JpaRepository<Salary, Long> {
 
     List<Salary> findAllByUpdatedAtBetweenAndEmployeeId(Timestamp fromDate, Timestamp toDate, UUID id);
+
+    List<Salary> findAllByVerifyingCode(String emailCode);
 }

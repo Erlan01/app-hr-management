@@ -1,6 +1,7 @@
 package pdp.uz.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import pdp.uz.entity.Employee;
 
 
@@ -19,4 +20,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
     Optional<Employee> findByEmailAndEmailCode(String email, String emailCode);
 
     Optional<Employee> findByEmailAndEnabledTrue(String email);
+
+    @Query(value = "select * from employee t\n" +
+            "join company c on c.id = t.company_id\n" +
+            "join employee_role er on t.id = er.employee_id\n" +
+            "where er.role_id = 2 and company_id =:company_id", nativeQuery = true)
+    Optional<Employee> findCompanyDirector(Long company_id);
+
+    @Query(value = "select count(*) > 0\n" +
+            "from employee_role t\n" +
+            "         join employee e on e.id = t.employee_id\n" +
+            "where role_id = 2\n" +
+            "  and e.email =:email", nativeQuery = true)
+    boolean isDirector(String email);
 }
