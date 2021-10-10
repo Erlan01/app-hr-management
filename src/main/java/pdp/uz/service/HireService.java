@@ -29,6 +29,9 @@ public class HireService {
     EmployeeRepository employeeRepository;
 
     @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
     RoleRepository roleRepository;
 
     @Autowired
@@ -37,8 +40,7 @@ public class HireService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    @Autowired
-    CompanyRepository companyRepository;
+
 
     public ApiResponse addManager(EmployeeHireDto dto) {
         if (employeeRepository.existsByEmail(dto.getEmail())) {
@@ -128,7 +130,7 @@ public class HireService {
     public ApiResponse verify(String emailCode, String email, HttpServletRequest request) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEmailCode(email, emailCode);
         if (!optionalEmployee.isPresent()) {
-            return new ApiResponse("Email or code isn't correct", false);
+            return new ApiResponse("Email or code is not correct", false);
         }
         Employee employee = optionalEmployee.get();
         employee.setPassword(passwordEncoder.encode(request.getParameter("password")));

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pdp.uz.entity.Task;
 import pdp.uz.entity.enums.TaskStatus;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;

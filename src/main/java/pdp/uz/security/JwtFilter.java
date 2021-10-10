@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
     @Autowired
     JwtProvider jwtProvider;
 
@@ -37,7 +38,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

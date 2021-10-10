@@ -1,6 +1,7 @@
 package pdp.uz.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pdp.uz.entity.Employee;
 import pdp.uz.entity.TourniquetCard;
@@ -19,12 +20,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class TourniquetService {
 
-    private final EmployeeRepository employeeRepository;
-    private final TourniquetRepository tourniquetRepository;
-    private final TourniquetHistoryRepository tourniquetHistoryRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
+    @Autowired
+    TourniquetRepository tourniquetRepository;
+    @Autowired
+    TourniquetHistoryRepository tourniquetHistoryRepository;
 
     public ApiResponse create(TourniquetCardDto dto) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmail(dto.getEmployeeEmail());

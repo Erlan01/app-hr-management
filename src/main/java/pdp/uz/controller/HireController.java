@@ -2,6 +2,7 @@ package pdp.uz.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pdp.uz.payload.ApiResponse;
 import pdp.uz.payload.EmployeeHireDto;
@@ -18,22 +19,22 @@ public class HireController {
     @Autowired
     HireService hireService;
 
-
-    @PostMapping("/director")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/addDirector")
     public ResponseEntity<?> addDirector(@Valid @RequestBody EmployeeHireDto dto){
         ApiResponse apiResponse = hireService.addDirector(dto);
         return ResponseEntity.status(apiResponse.isStatus() ? 201 : 409).body(apiResponse);
     }
 
-
-    @PostMapping("/manager")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DIRECTOR')")
+    @PostMapping("/addManager")
     public ResponseEntity<?> addManager(@Valid @RequestBody EmployeeHireDto dto) {
         ApiResponse apiResponse = hireService.addManager(dto);
         return ResponseEntity.status(apiResponse.isStatus() ? 201 : 409).body(apiResponse);
     }
 
-
-    @PostMapping("/worker")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DIRECTOR', 'HR_MANAGER')")
+    @PostMapping("/addWorker")
     public ResponseEntity<?> addWorker(@Valid @RequestBody EmployeeHireDto dto) {
         ApiResponse apiResponse = hireService.addWorker(dto);
         return ResponseEntity.status(apiResponse.isStatus() ? 201 : 409).body(apiResponse);

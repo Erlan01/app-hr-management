@@ -2,6 +2,7 @@ package pdp.uz.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pdp.uz.payload.ApiResponse;
 import pdp.uz.payload.SalaryDto;
@@ -16,6 +17,7 @@ public class SalaryController {
     @Autowired
     SalaryService salaryService;
 
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'HR_MANAGER')")
     @PostMapping("/pay")
     public ResponseEntity<?> pay(@Valid @RequestBody SalaryDto dto){
         ApiResponse apiResponse = salaryService.pay(dto);

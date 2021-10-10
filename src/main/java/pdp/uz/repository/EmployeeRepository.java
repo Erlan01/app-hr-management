@@ -23,24 +23,24 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
 
     @Query(value = "select * from employee t\n" +
             "join company c on c.id = t.company_id\n" +
-            "join employee_role er on t.id = er.employee_id\n" +
-            "where er.role_id = 2 and company_id =:company_id", nativeQuery = true)
+            "join employee_roles er on t.id = er.employee_id\n" +
+            "where er.roles_id = 2 and company_id =:company_id", nativeQuery = true)
     Optional<Employee> findCompanyDirector(Long company_id);
 
     @Query(value = "select count(*) > 0\n" +
-            "from employee_role t\n" +
+            "from employee_roles t\n" +
             "         join employee e on e.id = t.employee_id\n" +
-            "where role_id = 2\n" +
+            "where roles_id = 2\n" +
             "  and e.email =:email", nativeQuery = true)
     boolean isDirector(String email);
 
     @Query(nativeQuery = true, value = "select count(*)>0 from employee t\n" +
-            "join employee_role er on t.id = er.employee_id\n" +
-            "where role_id = 3 and email =:email")
+            "join employee_roles er on t.id = er.employee_id\n" +
+            "where roles_id = 3 and email =:email")
     boolean isManager(String email);
 
     @Query(nativeQuery = true, value = "select count(*)>0 from employee t\n" +
-            "join employee_role er on t.id = er.employee_id\n" +
-            "where role_id = 4 and email =:email")
+            "join employee_roles er on t.id = er.employee_id\n" +
+            "where roles_id = 4 and email =:email")
     boolean isWorker(String email);
 }

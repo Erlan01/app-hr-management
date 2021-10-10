@@ -54,7 +54,7 @@ public class TaskService {
     }
 
     public void sendTask(Employee employee, Task savedTask) {
-        String link = "http://localhost:8080/api/task/confirm?email=" + employee.getEmail() + "&taskCode=" + savedTask.getTaskCode();
+        String link = "http://localhost:8081/api/task/confirm?email=" + employee.getEmail() + "&taskCode=" + savedTask.getTaskCode();
         String body = "<form action=" + link + " method=\"post\">\n" +
                 "<p>" + savedTask.getDescription() + "</p>" +
                 "<p>Task code=" + savedTask.getTaskCode() + "</p>" +

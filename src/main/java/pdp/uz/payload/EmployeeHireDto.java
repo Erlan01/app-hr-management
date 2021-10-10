@@ -27,6 +27,5 @@ public class EmployeeHireDto {
     @Email
     private String email;
 
-
-    private Integer companyId;
+    private Long companyId;
 }

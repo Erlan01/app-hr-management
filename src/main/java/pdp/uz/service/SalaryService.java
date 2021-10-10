@@ -57,9 +57,9 @@ public class SalaryService {
             Employee director = optionalDirector.get();
             director.setEmailCode(verifyingCode);
             Employee savedDirector = employeeRepository.save(director);
-            String confirmLink = "http://localhost:8080/api/salary/confirm?email=" + savedDirector.getEmail() + "&emailCode=" +
+            String confirmLink = "http://localhost:8081/api/salary/confirm?email=" + savedDirector.getEmail() + "&emailCode=" +
                     savedDirector.getEmailCode();
-            String rejectLink = "http://localhost:8080/api/salary/reject?email=" + savedDirector.getEmail() + "&emailCode=" +
+            String rejectLink = "http://localhost:8081/api/salary/reject?email=" + savedDirector.getEmail() + "&emailCode=" +
                     savedDirector.getEmailCode();
 
             String startHtml = "<table border=\"1px\" cellspacing=\"0px\" cellpadding=\"1px\">\n" +
