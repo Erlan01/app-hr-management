@@ -15,6 +15,7 @@ import pdp.uz.payload.EmployeeHireDto;
 import pdp.uz.repository.CompanyRepository;
 import pdp.uz.repository.EmployeeRepository;
 import pdp.uz.repository.RoleRepository;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -40,9 +41,9 @@ public class HireService {
     CompanyRepository companyRepository;
 
     public ApiResponse addManager(EmployeeHireDto dto) {
-        if (employeeRepository.existsByEmail(dto.getEmail()))
+        if (employeeRepository.existsByEmail(dto.getEmail())) {
             return new ApiResponse("Employee has already existed", false);
-
+        }
         Employee employee = createEmployee(dto);
         employee.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_HR_MANAGER)));
 
@@ -53,13 +54,15 @@ public class HireService {
     }
 
     public ApiResponse addDirector(EmployeeHireDto dto) {
-        if (employeeRepository.existsByEmail(dto.getEmail()))
+        if (employeeRepository.existsByEmail(dto.getEmail())) {
             return new ApiResponse("Employee has already existed", false);
-        if (!companyRepository.existsById(dto.getCompanyId()))
+        }
+        if (!companyRepository.existsById(dto.getCompanyId())) {
             return new ApiResponse("Company not found", false);
-        if (companyRepository.hasDirector(dto.getCompanyId()))
+        }
+        if (companyRepository.hasDirector(dto.getCompanyId())) {
             return new ApiResponse("The company has already had director", false);
-
+        }
         Company company = companyRepository.getById(dto.getCompanyId());
 
         Employee employee = createEmployee(dto);
@@ -117,14 +120,16 @@ public class HireService {
             helper.setTo(sendingEmail);
             helper.setText(body, true);
             javaMailSender.send(message);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public ApiResponse verify(String emailCode, String email, HttpServletRequest request) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEmailCode(email, emailCode);
-        if (!optionalEmployee.isPresent())
+        if (!optionalEmployee.isPresent()) {
             return new ApiResponse("Email or code isn't correct", false);
+        }
         Employee employee = optionalEmployee.get();
         employee.setPassword(passwordEncoder.encode(request.getParameter("password")));
         employee.setEnabled(true);

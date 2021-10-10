@@ -77,7 +77,6 @@ public class TaskService {
         }
     }
 
-
     public ApiResponse createForWorker(TaskDto dto) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEnabledTrue(dto.getEmail());
         if (!optionalEmployee.isPresent()) {
@@ -85,7 +84,6 @@ public class TaskService {
         }
         Employee employee = optionalEmployee.get();
         if (employeeRepository.isWorker(employee.getEmail())) {
-
             Task task = new Task();
             task.setDeadline(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * dto.getDeadlineDay()));
             task.setDescription(dto.getDescription());
@@ -100,14 +98,15 @@ public class TaskService {
         return new ApiResponse(employee.getEmail() + " is not worker", false);
     }
 
-
     public ApiResponse confirm(String email, String taskCode) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEmailCode(email, taskCode);
-        if (!optionalEmployee.isPresent())
+        if (!optionalEmployee.isPresent()) {
             return new ApiResponse("Email or code is not correct", false);
+        }
         Optional<Task> optionalTask = taskRepository.findByTaskCode(taskCode);
-        if (!optionalTask.isPresent())
+        if (!optionalTask.isPresent()) {
             return new ApiResponse("Task code is not correct", false);
+        }
         Task task = optionalTask.get();
         Employee employee = optionalEmployee.get();
         task.setTaskStatus(TaskStatus.WORKING);
@@ -119,16 +118,19 @@ public class TaskService {
 
     public ApiResponse completed(String taskCode) {
         Optional<Task> optionalTask = taskRepository.findByTaskCode(taskCode);
-        if (!optionalTask.isPresent())
+        if (!optionalTask.isPresent()) {
             return new ApiResponse("Task not found", false);
+        }
         Task task = optionalTask.get();
-        if (task.getDeadline().before(new Date(System.currentTimeMillis())))
+        if (task.getDeadline().before(new Date(System.currentTimeMillis()))) {
             return new ApiResponse("Submission deadline", false);
-        if (task.getTaskStatus().equals(TaskStatus.NEW))
+        }
+        if (task.getTaskStatus().equals(TaskStatus.NEW)) {
             return new ApiResponse("Task is not confirmed", false);
-        if (task.getTaskStatus().equals(TaskStatus.COMPLETED))
+        }
+        if (task.getTaskStatus().equals(TaskStatus.COMPLETED)) {
             return new ApiResponse("Task has already completed", false);
-
+        }
         task.setTaskStatus(TaskStatus.COMPLETED);
         task.setCompletedAt(Timestamp.valueOf(LocalDateTime.now()));
         Task savedTask = taskRepository.save(task);
@@ -157,8 +159,9 @@ public class TaskService {
 
     public ApiResponse delete(String taskCode) {
         Optional<Task> optionalTask = taskRepository.findByTaskCode(taskCode);
-        if (!optionalTask.isPresent())
+        if (!optionalTask.isPresent()) {
             return new ApiResponse("Task code isn't correct", false);
+        }
         Task task = optionalTask.get();
         taskRepository.delete(task);
         return new ApiResponse("Task deleted", true);

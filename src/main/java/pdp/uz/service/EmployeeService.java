@@ -84,8 +84,9 @@ public class EmployeeService implements UserDetailsService {
 
     public ApiResponse get() {
         Employee employee = getEmployee();
-        if (employee == null)
+        if (employee == null) {
             return new ApiResponse("Error", false);
+        }
         List<Employee> employees = employeeRepository.findAllByCompanyIdAndEnabledTrue(employee.getCompany().getId());
         return new ApiResponse("Completed", true, employees);
     }
@@ -101,8 +102,9 @@ public class EmployeeService implements UserDetailsService {
 
     public ApiResponse edit(EmployeeDto email, String id) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(UUID.fromString(id));
-        if (!optionalEmployee.isPresent())
+        if (!optionalEmployee.isPresent()) {
             return new ApiResponse("Employee not found", false);
+        }
         Employee employee = optionalEmployee.get();
         employee.setEmail(email.getEmail());
         employee.setEnabled(false);
@@ -164,7 +166,6 @@ public class EmployeeService implements UserDetailsService {
             List<Salary> salaries = salaryRepository.findAllByUpdatedAtBetweenAndEmployeeId(fromDate, toDate, optionalEmployee.get().getId());
 
             return new ApiResponse("Success", true, salaries);
-
         } catch (Exception e) {
             return new ApiResponse("Date parse exception", false);
         }

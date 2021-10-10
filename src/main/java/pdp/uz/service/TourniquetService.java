@@ -32,7 +32,6 @@ public class TourniquetService {
             return new ApiResponse("Employee not found", false);
         }
         Employee employee = optionalEmployee.get();
-
         TourniquetCard card = new TourniquetCard();
         card.setCompany(employee.getCompany());
         card.setEmployee(employee);

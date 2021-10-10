@@ -98,8 +98,9 @@ public class SalaryService {
 
     public ApiResponse confirm(String email, String emailCode) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEmailCode(email, emailCode);
-        if (!optionalEmployee.isPresent())
+        if (!optionalEmployee.isPresent()) {
             return new ApiResponse("Email or code isn't correct", false);
+        }
         Employee director = optionalEmployee.get();
 
         if (employeeRepository.isDirector(director.getEmail())) {
@@ -117,8 +118,9 @@ public class SalaryService {
 
     public ApiResponse reject(String email, String emailCode) {
         Optional<Employee> optionalEmployee = employeeRepository.findByEmailAndEmailCode(email, emailCode);
-        if (!optionalEmployee.isPresent())
+        if (!optionalEmployee.isPresent()) {
             return new ApiResponse("Email or code isn't correct", false);
+        }
         Employee director = optionalEmployee.get();
 
         if (employeeRepository.isDirector(director.getEmail())) {
