@@ -33,4 +33,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
             "where role_id = 2\n" +
             "  and e.email =:email", nativeQuery = true)
     boolean isDirector(String email);
+
+    @Query(nativeQuery = true, value = "select count(*)>0 from employee t\n" +
+            "join employee_role er on t.id = er.employee_id\n" +
+            "where role_id = 3 and email =:email")
+    boolean isManager(String email);
+
+    @Query(nativeQuery = true, value = "select count(*)>0 from employee t\n" +
+            "join employee_role er on t.id = er.employee_id\n" +
+            "where role_id = 4 and email =:email")
+    boolean isWorker(String email);
 }

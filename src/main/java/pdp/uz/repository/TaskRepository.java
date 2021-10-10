@@ -7,6 +7,7 @@ import pdp.uz.entity.enums.TaskStatus;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
@@ -17,4 +18,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByCompletedAtBetweenAndEmployee_Email(Timestamp fromDate, Timestamp toDate, String email);
 
     List<Task> findAllByCompletedAtBetweenAndTaskStatusAndEmployee_Email(Timestamp completedAt, Timestamp completedAt2, TaskStatus taskStatus, String employee_email);
+
+    Optional<Task> findByTaskCode(String taskCode);
 }
