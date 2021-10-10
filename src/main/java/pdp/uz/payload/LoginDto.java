@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
+public class LoginDto implements Serializable {
 
     @NotNull
     @Email

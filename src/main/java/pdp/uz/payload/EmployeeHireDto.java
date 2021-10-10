@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeHireDto {
+public class EmployeeHireDto implements Serializable {
 
     @NotNull
     private String firstName;

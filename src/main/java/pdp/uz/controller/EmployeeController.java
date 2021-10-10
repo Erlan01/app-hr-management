@@ -19,7 +19,6 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'DIRECTOR')")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
         ApiResponse apiResponse = employeeService.login(loginDto);
